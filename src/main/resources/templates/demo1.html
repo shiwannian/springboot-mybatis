@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thymeleaf的入门</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+    <!--
+    输出hello数据
+    这句使用 th:text="${变量名}" 表示 使用thymeleaf获取文本数据，类似于EL表达式。
+    thymeleaf：都是作用于HTML标签之上
+    ${}自动添加上下文路径
+    -->
+    <p th:text="${hello}"></p>
+
+
+    <!--Thymeleaf基本语法-->
+    <!--
+        1、th:action
+        定义后台控制路径，类似<form>标签的action属性
+    -->
+    <form id="login-form" th:action="@{/test/hello1}" method="post">
+        <button>提交</button>
+    </form>
+
+    <!--
+        th:each
+        对象遍历，功能类似jstl中的<c:forEach>标签
+    -->
+    <table border="1" >
+        <tr>
+            <td>下标</td>
+            <td>用户名</td>
+            <td>密码</td>
+            <td>姓名</td>
+        </tr>
+        <tr th:each="user,userStat:${users}">
+            <td>
+                <span th:text="${userStat.index+1}"></span>
+            </td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.password}"></td>
+            <td th:text="${user.name}"></td>
+        </tr>
+    </table> 
+
+<!--    <table>-->
+<!--        &lt;!&ndash; 读取map 2种方式-->
+<!--        1：知道map的key ， 直接根据key 获取数据-->
+<!--        2：不知道map的key，循环方式获取key，然后获取数据-->
+<!--       &ndash;&gt;-->
+<!--        <h5>方式1</h5>-->
+<!--        <div>-->
+<!--            获取Key=NO的值：<span th:text="${dataMap.No}"></span><br/>-->
+<!--            获取key=address的值：<span th:text="${dataMap.address}"></span> <br/>-->
+<!--        </div>-->
+
+<!--        <h5>方式2</h5>-->
+<!--        <div th:each="map:${dataMap}">-->
+<!--            <span th:text="${map.key}"></span>:<span th:text="${map.value}"></span>-->
+<!--        </div>-->
+<!--    </table>-->
+<!--     -->
+
+    <div>
+        <span th:text="${#dates.format(now,'yyyy-MM-dd HH:mm:ss')}"></span>
+    </div>
+
+    <div th:each="nm,nmStat:${names}">
+        <span th:text="${nmStat.count}"></span>
+        <span th:text="${nm}"></span>
+    </div>
+
+    <!--
+    if:th：unless表示条件不成立 ，输出数据
+    -->
+    <div>
+        <span th:if="${(age>=18)}">终于长大了！</span>
+        <span th:unless="${age<18}">成年人</span>
+    </div>
+     
+    <!--
+        静态包含
+    -->
+    <div th:include="footer::copy"></div>
+</body>
+</html>
